@@ -6,60 +6,76 @@ import {
     Text,
     TextInput,
     KeyboardAvoidingView,
-    Platform
+    TouchableWithoutFeedback,
+    Platform,
+    Keyboard
 } from 'react-native'
 
-import { Button } from '../components/Button'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
+import { useNavigation } from '@react-navigation/native'
+import { Button } from '../components/Button';
+
 export default function UserIdentification() {
+
+    const navigation = useNavigation()
+
+    function nextScreen() {
+        navigation.navigate('Confirmation')
+    }
     const [isFocused, setIsFocused] = useState(false)
     const [isFilled, setIsFilled] = useState(false)
     const [name, setName] = useState<string>()
 
-function handleInputBlur() {
-    setIsFocused(false)
-    setIsFilled(!!name)
-}
+    function handleInputBlur() {
+        setIsFocused(false)
+        setIsFilled(!!name)
+    }
 
-function handleInputFocus() {
-    setIsFocused(true)
-}
+    function handleInputFocus() {
+        setIsFocused(true)
+    }
 
-function handleInputChange(value: string) {
-    setIsFilled(!!value) 
-    setName(value)
-}
+    function handleInputChange(value: string) {
+        setIsFilled(!!value)
+        setName(value)
+    }
+
+
 
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <View style={styles.content}>
-                    <View style={styles.form}>
-                        <View style={styles.header}>
-                            <Text style={styles.emoji}>{ isFilled ? '😁' : '😒' } </Text>
-                            <Text style={styles.title}>
-                                Como podemos {'\n'}
-                                chamar você?
-                            </Text>
-                        </View>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.content}>
+                        <View style={styles.form}>
+                            <View style={styles.header}>
+                                <Text style={styles.emoji}>{isFilled ? '😁' : '😒'} </Text>
+                                <Text style={styles.title}>
+                                    Como podemos {'\n'}
+                                    chamar você?
+                                </Text>
+                            </View>
 
-
-                        <TextInput
-                            style={[styles.input,
-                                    (isFocused || isFilled) && {borderColor: colors.green}        
-                            ]}
-                            placeholder="Digite seu nome"
-                            onBlur={handleInputBlur}
-                            onFocus={handleInputFocus}
-                            onChangeText={handleInputChange}
-                        />
-                        <View style={styles.footer}>
-                            <Button />
+                            <TextInput
+                                style={[styles.input,
+                                (isFocused || isFilled) && { borderColor: colors.green }
+                                ]}
+                                placeholder="Digite seu nome"
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onChangeText={handleInputChange}
+                            />
+                            <View style={styles.footer}>
+                                <Button
+                                    title='Confirmar'
+                                    onPress={nextScreen}
+                                />
+                            </View>
                         </View>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
@@ -111,8 +127,8 @@ const styles = StyleSheet.create({
     },
 
     footer: {
-        marginTop: 40,
         width: '100%',
+        marginTop: 40,
         paddingHorizontal: 20
     }
 })
