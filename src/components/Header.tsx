@@ -27,7 +27,6 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: 20,
-        backgroundColor: colors.red,
         marginTop: getStatusBarHeight(),
 
     },
