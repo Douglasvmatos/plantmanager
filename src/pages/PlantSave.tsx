@@ -30,115 +30,125 @@ interface Params {
     plant: PlantProps
 }
 
-export function PlantSave() {
+export function PlantSave(){
+    const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(Platform.OS == 'ios');
 
-    const [selectedDateTime, setSelectedDateTime] = useState(new Date())
-    const [showDatePicker, setShowDatePicker] = useState(Platform.OS == 'ios' )
-    const route = useRoute()
-    const { plant } = route.params as Params 
+    const route = useRoute();
+    const { plant } = route.params as Params;
 
     const navigation = useNavigation();
 
-    function handleChangeTime(event: Event, dateTime: Date | undefined) {
-        if(Platform.OS == 'android') {
-            setShowDatePicker(oldState => !oldState)
+    function handleChangeTime(event: Event, dateTime: Date | undefined){
+        if(Platform.OS === 'android'){
+            setShowDatePicker(oldState => !oldState);
         }
 
         if(dateTime && isBefore(dateTime, new Date())){
-            setSelectedDateTime(new Date())
-            return Alert.alert('Escolha uma hora no futuro!!')
+            setSelectedDateTime(new Date());
+            return Alert.alert('Escolha uma hora no futuro! ⏰');
         }
 
         if(dateTime)
-            setSelectedDateTime(dateTime)
+            setSelectedDateTime(dateTime);
     }
 
-    function handleOpenDateTimePickerForAndroid(){
-        setShowDatePicker(oldState => !oldState)
+    function handleOpenDatetimePickerForAndroid(){
+        setShowDatePicker(oldState => !oldState);
     }
-    
 
-     async function handleSave() {
-       
+    async function handleSave() {
         try {
             await savePlant({
-               ...plant,
-               dateTimeNotification: selectedDateTime,
-            })
+                ...plant,
+                dateTimeNotification: selectedDateTime
+            });
 
-        }catch{
-            Alert.alert('Não foi possível salvar 😢')
+            navigation.navigate('Confirmation'); 
+
+        } catch {
+            Alert.alert('Não foi possível salvar. 😢');
         }
     }
 
-    function moveOn() {
-        navigation.navigate('Confirmation2')
-    }
+    return ( 
+        <ScrollView
+            showsVerticalScrollIndicator={true}
+            contentContainerStyle={styles.scrollListContainer}
+        >
+            <View style={styles.container}>
+                <View style={styles.plantInfo}>
+                    <SvgFromUri
+                        uri={plant.photo}
+                        height={150}
+                        width={150}
+                    />
 
-    return (
-        <View style={style.container}>
-        <View style={style.plantInfo}>
-            <SvgFromUri 
-                uri={plant.photo}
-                height={150}
-                width={150}
-            />
-            <Text style={style.plantName}>{plant.name}</Text>
-            <Text style={style.plantAbout}>{plant.about}</Text>
-        </View>
-        <View style={style.controller}>
-            <View style={style.tipContainer}>
-                <Image 
-                    source={waterdrop}
-                    style={style.tipImage}
-                />
-                <Text style={style.tipText}>
-                    {plant.water_tips}
-                </Text>
-            </View>
-            <Text style={style.alertLabel}>
-                Escolha o melhor horário para ser lembrado:
-            </Text>
-            {showDatePicker && (
-                <DateTimePicker 
-                    value={selectedDateTime}
-                    mode="time"
-                    display="spinner"
-                />
-            )}
-
-            {
-                Platform.OS === "android" && (
-                    <TouchableOpacity
-                    style={style.dataTimePickerButton}
-                    onPress={handleOpenDateTimePickerForAndroid}
-                    >
-                    
-
-                    <Text style={style.dateTimePickerText}>
-                        {`Mudar horário${format(selectedDateTime, 'HH:mm')}`}
+                    <Text style={styles.plantName}>
+                    {plant.name}
                     </Text>
-                    </TouchableOpacity>
-                )
-            }
+                    <Text style={styles.plantAbout}>
+                        {plant.about} 
+                    </Text>
+                </View>
 
+                <View style={styles.controller}>
+                    <View style={styles.tipContainer}>
+                        <Image
+                            source={waterdrop}
+                            style={styles.tipImage}
+                        />
+                        <Text style={styles.tipText}>
+                            {plant.water_tips}
+                        </Text>
+                    </View>
 
-            <Button
-                title="Cadastrar Planta"
-                onPress={moveOn}
-            />
-        </View>
-        </View>
+                    <Text style={styles.alertLabel}>
+                        Escolha o melhor horário para ser lembrado:
+                    </Text>
 
+                    {showDatePicker && (
+                        <DateTimePicker
+                        value={selectedDateTime}
+                        mode="time"
+                        display="spinner"
+                        // onChange={handleChangeTime}
+                        />
+                    )}
+
+                    {
+                        Platform.OS === 'android' && (
+                            <TouchableOpacity 
+                                style={styles.dateTimePickerButton}
+                                onPress={handleOpenDatetimePickerForAndroid}
+                            >
+                                <Text style={styles.dateTimePickerText}>
+                                {`Mudar ${format(selectedDateTime, 'HH:mm')}`}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    }
+                    <Button 
+                        title="Cadastrar planta"
+                        onPress={handleSave}
+                    />
+                </View>
+            </View>
+        </ScrollView>
     )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: colors.shape
+        backgroundColor: colors.shape,
     },
+    scrollListContainer: {
+        flexGrow: 1,
+        justifyContent: 'space-between',
+        backgroundColor: colors.shape
+      },
     plantInfo: {
         flex: 1,
         paddingHorizontal: 30,
@@ -147,24 +157,24 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: colors.shape
     },
+    controller: {
+        backgroundColor: colors.white,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: getBottomSpace() || 20
+    },
     plantName: {
         fontFamily: fonts.heading,
         fontSize: 24,
         color: colors.heading,
-        marginTop: 15
-
+        marginTop: 15,
     },
     plantAbout: {
         textAlign: 'center',
         fontFamily: fonts.text,
         color: colors.heading,
         fontSize: 17,
-    },
-    controller: {
-        backgroundColor: colors.white,
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: getBottomSpace() || 20,
+        marginTop: 10
     },
     tipContainer: {
         flexDirection: 'row',
@@ -176,6 +186,10 @@ const style = StyleSheet.create({
         position: 'relative',
         bottom: 60
     },
+    tipImage: {
+        width: 56,
+        height: 56,
+    },
     tipText: {
         flex: 1,
         marginLeft: 20,
@@ -184,10 +198,6 @@ const style = StyleSheet.create({
         fontSize: 17,
         textAlign: 'justify'
     },
-    tipImage: {
-        height: 56,
-        width: 56,
-    },
     alertLabel: {
         textAlign: 'center',
         fontFamily: fonts.complement,
@@ -195,14 +205,14 @@ const style = StyleSheet.create({
         fontSize: 12,
         marginBottom: 5
     },
+    dateTimePickerButton: {
+        width: '100%',
+        alignItems: 'center',
+        paddingVertical: 40,
+    },
     dateTimePickerText: {
         color: colors.heading,
         fontSize: 24,
         fontFamily: fonts.text
-    },
-    dataTimePickerButton: {
-        width: '100%',
-        alignItems: 'center',
-        paddingVertical: 40,
     }
-})
+});
