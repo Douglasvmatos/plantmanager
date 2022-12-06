@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
 import {
+    Alert,
     StyleSheet,
     Text,
-    Alert,
     View,
+    Image,
     ScrollView,
     Platform,
-    TouchableOpacity,
-    Image 
-} from 'react-native'
-import { getBottomSpace } from 'react-native-iphone-x-helper';
-
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
-
+    TouchableOpacity
+} from 'react-native';
 import { SvgFromUri } from 'react-native-svg';
-
-import { useRoute } from '@react-navigation/native'
-
-import waterdrop from '../../assets/waterDrop.png'
-import { Button } from '../components/Button';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { format, isBefore } from 'date-fns';
 import { PlantProps, savePlant } from '../libs/storage';
 
-import { useNavigation } from '@react-navigation/native';
+import { Button } from '../components/Button';
+
+import waterdrop from '../assets/waterdrop.png';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 
 interface Params {
     plant: PlantProps
@@ -73,7 +69,7 @@ export function PlantSave(){
 
     return ( 
         <ScrollView
-            showsVerticalScrollIndicator={true}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollListContainer}
         >
             <View style={styles.container}>
@@ -112,7 +108,7 @@ export function PlantSave(){
                         value={selectedDateTime}
                         mode="time"
                         display="spinner"
-                        // onChange={handleChangeTime}
+                        onChange={handleChangeTime}
                         />
                     )}
 
@@ -128,6 +124,8 @@ export function PlantSave(){
                             </TouchableOpacity>
                         )
                     }
+
+
                     <Button 
                         title="Cadastrar planta"
                         onPress={handleSave}

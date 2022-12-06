@@ -14,12 +14,12 @@ export function StackRoutes() {
     return (
     <Navigator>
         <Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
-        <Screen name="UserIdentification" component={UserIdentification} options={{title: 'Identificação'}}/>
-        <Screen name="Confirmation" component={Confirmation} options={{title: 'Confirmation'}}/>
-        <Screen name="Confirmation2" component={Confirmation2} options={{title: 'Confirmation2'}}/>
-        <Screen name="PlantSelect" component={AuthRoutes} options={{title: 'PlantSelect'}}/>
-        <Screen name="PlantSave" component={PlantSave} options={{title: 'PlantSave'}}/>
-        <Screen name="MyPlants" component={AuthRoutes}  options={{title: 'Minhas Plantas'}}/>
+        <Screen name="UserIdentification" component={UserIdentification} options={{title: ''}}/>
+        <Screen name="Confirmation" component={Confirmation} options={{title: ''}}/>
+        <Screen name="Confirmation2" component={Confirmation2} options={{title: ''}}/>
+        <Screen name="PlantSelect" component={AuthRoutes} options={{title: ''}}/>
+        <Screen name="PlantSave" component={PlantSave} options={{title: ''}}/>
+        <Screen name="MyPlants" component={AuthRoutes}  options={{title: ' Plantas'}}/>
     </Navigator>
     )
 }
