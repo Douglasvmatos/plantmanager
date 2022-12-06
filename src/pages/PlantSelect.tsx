@@ -4,7 +4,7 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    ActivityIndicatorBase
+    ActivityIndicator
 } from 'react-native'
 
 import colors from '../styles/colors';
@@ -18,34 +18,27 @@ import { PlantCardPrimary } from '../components/PlantCardPrimary';
 
 import { Load } from '../components/Load'
 
+import { useNavigation } from '@react-navigation/native'
+import { PlantProps } from '../libs/storage';
+
 interface EnviromentProps {
     key: string;
     title: string;
 }
-interface PlantsProps {
-    id: string;
-    name: string,
-    about: string,
-    water_tips: string,
-    photo: string,
-    environments: [string],
-    frequency: {
-        times: number,
-        repeat_every: string
-    }
-}
+
 
 export function PlantSelect() {
 
     const [enviroments, setEnviroment] = useState<EnviromentProps[]>()
-    const [plants, setPlants] = useState<PlantsProps[]>()
-    const [filteredPlants, setFilteredPlants] = useState<PlantsProps[]>()
+    const [plants, setPlants] = useState<PlantProps[]>()
+    const [filteredPlants, setFilteredPlants] = useState<PlantProps[]>()
     const [enviromentSelected, setEnviromentSelected] = useState('all')
     const [loading, setLoading] = useState(true)
 
     const [page, setPage] = useState(1)
     const [loadingMore, setLoadingMore] = useState(true)
-    const [loadedAll, setLoadedAll] = useState(false)
+
+    const navigation = useNavigation()
 
     function handleEnviroment(environment: string) {
         setEnviromentSelected(environment)
@@ -61,7 +54,7 @@ export function PlantSelect() {
 
     async function fetchPlants() {
         const { data } = await api
-            .get(`plants?_sort=name&_order=asc&_page=${page}&_limit=6`);
+            .get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
 
         if (!data)
             return setLoading(true);
@@ -88,10 +81,14 @@ export function PlantSelect() {
             fetchPlants()
     }
 
+    function handlePlantSelect(plant: PlantProps){
+        navigation.navigate('PlantSave', { plant })
+    }
+
     useEffect(() => {
         async function fetchEnviroment() {
             const { data } = await api
-                .get('plants_environments?_sort=title&_order=asc')
+                .get('plants_environments')
             setEnviroment([
                 {
                     key: 'all',
@@ -122,6 +119,7 @@ export function PlantSelect() {
             <View>
                 < FlatList
                     data={enviroments}
+                    keyExtractor={(item) => item.key}
                     renderItem={({ item }) => (
                         <EnviromentButton
                             title={item.title}
@@ -138,23 +136,25 @@ export function PlantSelect() {
             <View>
                 <FlatList
                     data={filteredPlants}
+                    keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
-                        <PlantCardPrimary data={item} />
+                        <PlantCardPrimary 
+                        data={item} 
+                        onPress={() => handlePlantSelect(item)}
+                        />
                     )}
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
                     contentContainerStyle={styles.contentContainerStyle}
                     onEndReachedThreshold={0.1}
                     onEndReached={({ distanceFromEnd}) => handleFetchMore(distanceFromEnd)}
-                    // ListFooterComponent={
-                    //     <ActivityIndicatorBase color={colors.green}/>
-                    // }
+                    ListFooterComponent={
+                        loadingMore
+                        ? <ActivityIndicator color={colors.green}/>
+                        : <></>
+                    }
                 />
-
             </View>
-
-
-
         </View>
 
     )
