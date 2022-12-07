@@ -8,7 +8,7 @@
 
 
 
-## ✨ Technologies
+## 🖧 Technologies
 
 This project was developed with the following technologies:
 
@@ -25,7 +25,7 @@ Forever all the plants healthy and always beautiful, it also informs which envir
 
 Você pode visualizar o layout do projeto através [desse link](https://www.figma.com/file/IhQRtrOZdu3TrvkPYREzOy/PlantManager/duplicate). É necessário ter conta no [Figma](http://figma.com/) para acessá-lo.
 
-## How execute
+## ▶️ How execute
 
 - Clone o repositório
 - Instale as dependências com `yarn`
