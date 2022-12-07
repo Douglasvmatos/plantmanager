@@ -20,7 +20,7 @@ Forever all the plants healthy and always beautiful, it also informs which envir
 
 ## 🔖 Layout
 
-You can preview the project layout through [desse link](https://www.figma.com/file/IhQRtrOZdu3TrvkPYREzOy/PlantManager/duplicate). It is necessary to have an account on [Figma](http://figma.com/)
+You can preview the project layout through [from this link](https://www.figma.com/file/IhQRtrOZdu3TrvkPYREzOy/PlantManager/duplicate). It is necessary to have an account on [Figma](http://figma.com/)
 
 ## ▶️ How execute
 
