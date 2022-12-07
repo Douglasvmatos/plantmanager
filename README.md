@@ -24,7 +24,7 @@ You can preview the project layout through [from this link](https://www.figma.co
 
 ## ▶️ How execute
 
-- Clone o repositório
-- Instale as dependências com `yarn`
-- Inicie seu app com `expo start`
-- Inicie a fake api com `json-server ./src/services server.json --host 192.168.1.4 --port 3333 --delay 700`. Substitua o host pelo seu endereço IP local. Faça o mesmo no arquivo API dentro de services.
+- Clone the repository
+- Install dependencies with `npx`
+- Start your app with `expo start`
+- Start the fake api with `json-server ./src/services server.json --host 192.168.0.22 --port 3333 --delay 700`. Replace host with your local IP address. Do the same in the API file inside services.
