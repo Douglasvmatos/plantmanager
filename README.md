@@ -2,10 +2,7 @@
   Plant Manager
 </h1>
 
-
-
-<br>
-
+![Captura de tela 2022-12-07 092734](https://user-images.githubusercontent.com/105434742/206181168-8661d96d-ed93-4fb9-88b1-1f10c117caf7.png)
 
 
 ## 🖧 Technologies
@@ -23,7 +20,7 @@ Forever all the plants healthy and always beautiful, it also informs which envir
 
 ## 🔖 Layout
 
-Você pode visualizar o layout do projeto através [desse link](https://www.figma.com/file/IhQRtrOZdu3TrvkPYREzOy/PlantManager/duplicate). É necessário ter conta no [Figma](http://figma.com/) para acessá-lo.
+You can preview the project layout through [desse link](https://www.figma.com/file/IhQRtrOZdu3TrvkPYREzOy/PlantManager/duplicate). It is necessary to have an account on [Figma](http://figma.com/)
 
 ## ▶️ How execute
 
